@@ -16,7 +16,8 @@ public class LocationController {
   private final LocationRepository locationRepository;
 
   public LocationController(LocationRepository locationRepository) {
-    this.locationRepository = locationRepository;
+
+      this.locationRepository = locationRepository;
   }
 
 
@@ -34,7 +35,7 @@ public class LocationController {
   @RequestMapping(value = "/location/{id}", method = RequestMethod.GET)
   public ResponseEntity<Location> getRecordsById(@PathVariable Integer id) {
     if(id <= 0 || id > locationRepository.count()) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     Optional<Location> data = locationRepository.findById(id);
     if (data.isPresent()) {
