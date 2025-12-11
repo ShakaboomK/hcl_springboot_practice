@@ -21,22 +21,31 @@ public class PlayListController {
 
     @PostMapping()
     public ResponseEntity<PlayList> createPlayList(@RequestBody PlayListRequest playListRequest){
-        return null;
+        return new ResponseEntity<>(playListService.createPlayList(playListRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/{playListId}")
     public ResponseEntity<PlayList> getPlayListById(@PathVariable Long playListId){
-        return null;
+        if(playListId<=0||playListService.getPlayListByID(playListId)==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity<>(playListService.getPlayListByID(playListId), HttpStatus.OK);
+        }
     }
 
     @GetMapping
     public ResponseEntity<List<PlayList>> getAllPlayLists(){
-        return null;
+        return new ResponseEntity<>(playListService.getPlayLists(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{playListId}")
     public ResponseEntity<Void> deletePlayList(@PathVariable Long playListId){
-        return null;
+        if(playListId<=0||playListService.getPlayListByID(playListId)==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }else{
+            playListService.deletePlayList(playListId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
 }
