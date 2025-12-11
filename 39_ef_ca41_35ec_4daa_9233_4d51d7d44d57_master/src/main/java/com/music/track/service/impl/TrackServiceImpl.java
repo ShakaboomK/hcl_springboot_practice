@@ -47,6 +47,7 @@ public class TrackServiceImpl implements TrackService {
     }
 
     public Track getTrackById(Long id){
+        if(id <=0)return null;
        Optional<Track> byId = trackRepository.findById(id);
        return byId.orElse(null);
     }
