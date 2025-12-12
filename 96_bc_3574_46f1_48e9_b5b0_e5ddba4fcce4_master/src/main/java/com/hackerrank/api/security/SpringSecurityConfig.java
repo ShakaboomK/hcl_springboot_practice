@@ -22,6 +22,7 @@ public class SpringSecurityConfig {
             )
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/").permitAll()
+                    .requestMatchers("/api/home/*").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(httpBasic -> {});

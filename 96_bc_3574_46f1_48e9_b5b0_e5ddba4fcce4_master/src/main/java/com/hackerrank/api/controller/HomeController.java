@@ -27,24 +27,30 @@ public class HomeController {
       return new ResponseEntity(newRecord, HttpStatus.BAD_REQUEST);
     }
     Home createRecord = homeRepository.save(newRecord);
-    return new ResponseEntity<>(createRecord, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(createRecord, HttpStatus.CREATED);
   }
 
   //2. GET by Id
   @RequestMapping(value = "/home/{id}", method = RequestMethod.GET)
   public ResponseEntity<Home> getRecordsById(@PathVariable String id) {
-    try {
-      Integer idValue = Integer.parseInt(id);
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    } catch (NumberFormatException e) {
-      return new ResponseEntity<>(HttpStatus.OK);
-    }
+
+      try{
+        Integer intId = Integer.parseInt(id);
+        if(intId <=0){
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return homeRepository.findById(intId).map(h->new ResponseEntity<>(h, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+      }catch (NumberFormatException e){
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+
   }
 
   //3. GET
   @RequestMapping(value = "/home", method = RequestMethod.GET)
   public ResponseEntity<List<Home>> getRecords() {
     List<Home> data = homeRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-    return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(data, HttpStatus.OK);
   }
 }
