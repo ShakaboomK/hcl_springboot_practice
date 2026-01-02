@@ -4,17 +4,26 @@ import com.hackerrank.stereotypes.model.Person;
 import com.hackerrank.stereotypes.service.ContactService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/contact")
 public class ContactController {
-    ContactService contactService;
+    private final ContactService contactService;
 
-    public ResponseEntity<Person> save(Person person){
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
+    }
+    @PostMapping("/save")
+    public ResponseEntity<Person> save(@RequestBody Person person){
         Person saved = contactService.save(person);
-        return new ResponseEntity(saved, HttpStatus.CREATED);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
-    public ResponseEntity<Person> retrieve(Integer id){
+    @GetMapping("/retrieve/{id}")
+    public ResponseEntity<Person> retrieve(@PathVariable Integer id){
         Person person = contactService.retrieve(id);
-        return new ResponseEntity(person, HttpStatus.OK);
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
 }
