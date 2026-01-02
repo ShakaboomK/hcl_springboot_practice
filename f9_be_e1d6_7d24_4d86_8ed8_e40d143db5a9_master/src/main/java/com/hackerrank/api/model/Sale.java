@@ -5,9 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Negative;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -24,15 +22,15 @@ public class Sale implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotEmpty(message = "Product name is mandatory")
     private String productName;
 
-    @Email()
+    @Email(message = "Invalid customer email")
     private String customerEmail;
 
-    @Negative(message = "Value should not be negative")
+    @Min(value =1, message = "Value should not be negative")
     private Integer buyingPrice;
 
-    @Negative(message = "Value should not be negative")
+    @Min(value = 1,message = "Value should not be negative")
     private Integer sellingPrice;
 }
