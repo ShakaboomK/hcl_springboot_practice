@@ -14,6 +14,6 @@ public class AppExceptionHandlerControllerAdvice extends ResponseEntityException
 
     @ExceptionHandler(value = {ElementNotFoundException.class, BadRequestException.class, MethodArgumentTypeMismatchException.class})
     protected ResponseEntity<Object> handleBug(RuntimeException ex, WebRequest request) {
-        return handleExceptionInternal(ex, ex.getCause(), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        return handleExceptionInternal(ex, ex.getCause(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }

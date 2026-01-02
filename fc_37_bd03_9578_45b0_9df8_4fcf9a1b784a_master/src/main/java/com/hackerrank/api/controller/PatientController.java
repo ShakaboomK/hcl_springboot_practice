@@ -26,17 +26,16 @@ public class PatientController {
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
-    return new ResponseEntity<>(patientService.createNewPatient(patient), HttpStatus.OK);
+      if(patient.getId()!=null)return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(patientService.createNewPatient(patient), HttpStatus.CREATED);
   }
 
   @GetMapping("/{id}")
-  @ResponseStatus(HttpStatus.CREATED)
-  public Patient getPatientById(@PathVariable Long id) {
+  public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
     if (id < 1) {
-      return new Patient();
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return patientService.getPatientById(id);
+    return new ResponseEntity<>(patientService.getPatientById(id), HttpStatus.OK);
   }
 }
