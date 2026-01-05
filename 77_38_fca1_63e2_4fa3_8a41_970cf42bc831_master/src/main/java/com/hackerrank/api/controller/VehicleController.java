@@ -40,7 +40,7 @@ public class VehicleController {
   @GetMapping(value = "/vehicle/{id}")
   public ResponseEntity<Vehicle> getVehicleById(@PathVariable Long id) {
       if(id<=0 ) {
-          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
       try{
           Vehicle vehicleById = vehicleService.getVehicleById(id);
